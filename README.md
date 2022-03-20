@@ -26,8 +26,8 @@ Police notification with linden outlawalerts
 Discord logs
 </p>
 <h2>Planed updates:</h2>
-Camera system for police
-Vault control for police 
-Multi-framework support
-Debug mode
-Support more hacking scripts
+  <p>Camera system for police</p>
+  <p>Vault control for police</p> 
+  <p>Multi-framework support</p>
+  <p>Debug mode</p>
+  <p>Support more hacking scripts</p>
