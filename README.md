@@ -1,14 +1,14 @@
 # DV-Union
 Script that allows you to add more illegal roleplay with Union Depository heist.
 
-# Requirements:
+<h2> Requirements:</h2>
 <p>
  QBCORE framework
  </p>
   <p>
 mhacking
 </p>
-# Features:
+<h2> Features:</h2>
 <p>
 Optimization 0.05ms idle (working on better)
   </p>
@@ -25,10 +25,9 @@ Police notification with linden outlawalerts
                 <p>
 Discord logs
 </p>
-# Planed updates:
+<h2>Planed updates:</h2>
 Camera system for police
-Vault control for police
-Dealer 
+Vault control for police 
 Multi-framework support
 Debug mode
 Support more hacking scripts
