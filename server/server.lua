@@ -93,7 +93,6 @@ end
 end)
 CreateThread(function()
     Wait(Config.version)
-
     local version = GetResourceMetadata(GetCurrentResourceName(), 'version')
     PerformHttpRequest('https://zap730429-1.plesk12.zap-webspace.com/version.json', function(a, versions, c)
         versions = json.decode(versions)

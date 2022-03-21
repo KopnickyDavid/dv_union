@@ -2,11 +2,6 @@
 local teleport = false --- teleport for base
 local rob = false ---rob for base
 local marker5 = false
-----Vault type/coords----
-DV = {
-    vault = {x = -1.72947, y = -686.5417, z = 16.68913, type = "v_ilev_fin_vaultdoor"}
-    }
-
 ----CONFIG locals----
 local v1 = Config.collectpoint
 local v2 = Config.collectpoint1
@@ -249,6 +244,10 @@ TriggerEvent('dv:vault:freeze')
     ----Freeze vault----
     RegisterNetEvent('dv:vault:freeze')
     AddEventHandler('dv:vault:freeze', function(data)
+        DV = {
+            vault = {x = -1.72947, y = -686.5417, z = 16.68913, type = "v_ilev_fin_vaultdoor"}
+            }
+        
         local obj = GetClosestObjectOfType(DV.vault.x, DV.vault.y, DV.vault.z, 2.0, GetHashKey(DV.vault.type), false, false, false)
         FreezeEntityPosition(obj, true)
 
@@ -256,6 +255,10 @@ TriggerEvent('dv:vault:freeze')
     ----Unfreeze vault----
     RegisterNetEvent('dv:vault:unfreeze')
     AddEventHandler('dv:vault:unfreeze', function(data)
+        DV = {
+            vault = {x = -1.72947, y = -686.5417, z = 16.68913, type = "v_ilev_fin_vaultdoor"}
+            }
+        
         local obj = GetClosestObjectOfType(DV.vault.x, DV.vault.y, DV.vault.z, 2.0, GetHashKey(DV.vault.type), false, false, false)
         FreezeEntityPosition(obj, false)
 
@@ -269,8 +272,6 @@ TriggerEvent('dv:vault:freeze')
                 local coords = GetEntityCoords(player)
                 local v11 = #(coords-Config.teleportdowntext)
                 local sleep = true
-
-                
 
                 if Vdist2(GetEntityCoords(player, false), teleport2) < distance_until_text_disappears then
                     sleep = false
@@ -309,14 +310,11 @@ TriggerEvent('dv:vault:freeze')
                     if IsControlJustReleased(0, 38) then
                         if teleport == true then
                         teleportToCoords(player,Config.escape)
-
                 TriggerEvent('dv-unionrobbery:client:stoprobbery')
                                                           if sleep then
                                                             Wait(500)
                                                           end
     break
-
-                        
                         end
                     end
                     end
