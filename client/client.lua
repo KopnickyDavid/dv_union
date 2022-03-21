@@ -47,17 +47,17 @@ local teleport1 = Config.teleportuptext
         function()
             while true do
                 Wait(0)
-                local coords = GetEntityCoords(PlayerPedId())
+                local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local v11 = #(coords-Config.collectpoint)
                 local sleep = true
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), v1) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), v1) < distance_until_text_disappears then
                     if rob == true then 
                         sleep = false
                     Draw3DText(v1.x, v1.y, v1.z, 0.5, Config.draw6)
                     if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
                         TriggerServerEvent('add')  
-                        
                         if sleep then
                             Wait(500)
                         end
@@ -74,22 +74,17 @@ local teleport1 = Config.teleportuptext
         function()
             while true do
                 Wait(0)
-                local coords = GetEntityCoords(PlayerPedId())
+                local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local sleep = true
                 local v11 = #(coords-Config.collectpoint1)
-
-            
-
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), v2) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), v2) < distance_until_text_disappears then
                     if rob == true then 
                         sleep = false
                     Draw3DText(v2.x, v2.y, v2.z, 0.5, Config.draw6)
                     if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
-
-                        TriggerServerEvent('add')
-                        
-                        
+                        TriggerServerEvent('add')                    
     if sleep then
         Wait(500)
       end
@@ -105,18 +100,18 @@ local teleport1 = Config.teleportuptext
         function()
             while true do
                 Wait(0)
-                local coords = GetEntityCoords(PlayerPedId())
+                local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local v11 = #(coords-Config.collectpoint2)
                 local sleep = true
 
         
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), v3) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), v3) < distance_until_text_disappears then
                     if rob == true then 
                         sleep = false
                     Draw3DText(v3.x, v3.y, v3.z, 0.5, Config.draw6)
                     if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
-
                         TriggerServerEvent('add')
                         
     if sleep then
@@ -134,19 +129,19 @@ local teleport1 = Config.teleportuptext
         function()
             while true do
                 Wait(0)
-                local coords = GetEntityCoords(PlayerPedId())
+                local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local sleep = true
                 local v11 = #(coords-Config.collectpoint3)
 
 
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), v4) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), v4) < distance_until_text_disappears then
                     if rob == true then 
                         sleep = false
 
                     Draw3DText(v4.x, v4.y, v4.z, 0.5, Config.draw6)
                     if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
-
                         TriggerServerEvent('add')
                         
   if sleep then
@@ -165,12 +160,13 @@ local teleport1 = Config.teleportuptext
             while true do
                 Wait(0)
                 if marker5 == true then
-                local coords = GetEntityCoords(PlayerPedId())
+                    local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local sleep = true
                 local v11 = #(coords-Config.hack)
 
  
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), v5) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), v5) < distance_until_text_disappears then
                         sleep = false
                     Draw3DText(v5.x, v5.y, v5.z, 0.5, Config.draw5)
                     if v11 <= 1 then
@@ -192,52 +188,55 @@ local teleport1 = Config.teleportuptext
         function()
             while true do
                 Wait(0)
-                local coords = GetEntityCoords(PlayerPedId())
+                local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local sleep = true
                 local v11 = #(coords-Config.startheist)
 
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), v6) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), v6) < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(v6.x, v6.y, v6.z, 0.5, Config.draw4)
                     if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
-                        TriggerServerEvent('startheist') 
-                        RequestIpl('FINBANK')
-                        marker5 = true
-                        if teleport == false then
-                            teleport = true 
-                            if rob == false then
-                                rob = true 
+TriggerEvent('dv-union:client:ipl:v6')
                                 if sleep then
                                     Wait(500)
                                   end
     break
                                 end
                         end
-                    end
-                    
-                    end
-                end
+                    end                
             end
         end
     )
+    RegisterNetEvent('dv-union:client:ipl:v6')
+    AddEventHandler('dv-union:client:ipl:v6', function(data)
+        TriggerServerEvent('startheist') 
+        RequestIpl('FINBANK')
+        marker5 = true
+        if teleport == false then
+            teleport = true 
+            if rob == false then
+                rob = true 
+            end
+        end
+    end)
     CreateThread(
         function()
             while true do
                 Wait(0)
-                local coords = GetEntityCoords(PlayerPedId())
+                local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local sleep = true
                 local v11 = #(coords-Config.teleportuptext)
 
-            
-
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), teleport1) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), teleport1) < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(teleport1.x, teleport1.y, teleport1.z, 0.5, Config.draw3)
                     if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
 TriggerEvent('dv:vault:freeze')
-                        teleportToCoords(PlayerPedId(),Config.teleportup)
+                        teleportToCoords(player,Config.teleportup)
                         if sleep then
                             Wait(500)
                           end
@@ -266,20 +265,21 @@ TriggerEvent('dv:vault:freeze')
         function()
             while true do
                 Wait(0)
-                local coords = GetEntityCoords(PlayerPedId())
+                local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local v11 = #(coords-Config.teleportdowntext)
                 local sleep = true
 
                 
 
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), teleport2) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), teleport2) < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(teleport2.x, teleport2.y, teleport2.z, 0.5, Config.draw2)
                     if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
 
                 
-                        teleportToCoords(PlayerPedId(),Config.teleportdown)
+                        teleportToCoords(player,Config.teleportdown)
 
 
                         if sleep then
@@ -296,18 +296,19 @@ TriggerEvent('dv:vault:freeze')
         function()
             while true do
                 Wait(0)
-                local coords = GetEntityCoords(PlayerPedId())
+                local player = PlayerPedId()
+                local coords = GetEntityCoords(player)
                 local sleep = true
                 local v11 = #(coords-Config.escapetext)
 
               
-                if Vdist2(GetEntityCoords(PlayerPedId(), false), v7) < distance_until_text_disappears then
+                if Vdist2(GetEntityCoords(player, false), v7) < distance_until_text_disappears then
                         sleep = false
                     Draw3DText(v7.x, v7.y, v7.z, 0.5, Config.draw1)
                     if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
                         if teleport == true then
-                        teleportToCoords(PlayerPedId(),Config.escape)
+                        teleportToCoords(player,Config.escape)
 
                 TriggerEvent('dv-unionrobbery:client:stoprobbery')
                                                           if sleep then
@@ -331,28 +332,31 @@ TriggerEvent("mhacking:start",7,35,mycb)
 end)
 function mycb(success, timeremaining)
 	if success then
-        TriggerServerEvent('alertpd')
-        TriggerEvent('dv:vault:unfreeze')
-        TriggerEvent('mhacking:hide')
-        marker5 = false
+TriggerEvent('dv-union:hacking:success')
 	else
 		TriggerEvent('mhacking:hide')
         marker5 = true
 	end
 end
+RegisterNetEvent('dv-union:hacking:success')
+AddEventHandler('dv-union:hacking:success', function(data)
+    TriggerServerEvent('alertpd')
+    TriggerEvent('dv:vault:unfreeze')
+    TriggerEvent('mhacking:hide')
+    marker5 = false
+end)
 ----TELEPORT function----
 function teleportToCoords(ped, x, y, z, heading)
     CreateThread( -- Anything that requires a loop will require a thread, else the code will lock and crash
       function()
-        DoScreenFadeOut(800)
+        DoScreenFadeOut(500)
         while not IsScreenFadedOut() do
           Wait(0)
         end
         SetEntityCoords(ped, x, y, z)
         SetEntityHeading(ped, heading)
-        DoScreenFadeIn(800)
-      end
-    )
+        DoScreenFadeIn(500)
+      end)
   end
   ----Robbery stop----
   RegisterNetEvent("dv-unionrobbery:client:stoprobbery")

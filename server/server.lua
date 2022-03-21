@@ -1,12 +1,12 @@
 local rob = false
 local DISCORD_WEBHOOK = Config.webhook
-local DISCORD_NAME = "DV-Union"
-if GetCurrentResourceName() ~= 'dv-union' then
-    print('[dv-union]: ^1You are not allowed to change the resource name ^0')
+local DISCORD_NAME = "dv_union"
+if GetCurrentResourceName() ~= 'dv_union' then
+    print('[dv_union]: ^1You are not allowed to change the resource name ^0')
     return
 end
 
-print('[dv-union]: ^2Resource started successfuly^0')
+print('[dv_union]: ^2Resource started successfuly^0')
 
 
 
@@ -16,23 +16,10 @@ AddEventHandler('startheist', function(data)
     local vehicle = CreateVehicle(1747439474, 441.8710, -1926.2142, 24.6184, 20.4338, 1.0, true, true)
     if rob == false then
         rob = true 
-
-        print(rob)
             end     
     elseif rob == true then
-        print("You can not rob now")
     end
 end)
-
-RegisterServerEvent("dv:openvault")
-AddEventHandler("dv:openvault", function(method)
-    TriggerClientEvent("dv:openvault_c", -1, method)
-end)
-RegisterServerEvent("dv:cl")
-AddEventHandler("dv:cl", function(method)
-    TriggerClientEvent("dv:closevault",-1, method )
-end)
-
 
 
 RegisterServerEvent('add')
@@ -45,15 +32,18 @@ AddEventHandler('add', function(data)
     if rob == true then
         Player.Functions.AddItem(Config.item, rand)
             sendToDiscord( GetPlayerName(source) ,  Config.item .." added to inventory." , FF0000)
+            if Config.Debug then 
             sendToDiscord( GetPlayerName(source) ,  GetPlayerIdentifiers(source) , FF0000)
     elseif Config.framework == ESX then
         local Player = QBCore.Functions.GetPlayer(source)
-
         if rob == true then
             Player.Functions.AddItem(Config.item, rand)
                 sendToDiscord( GetPlayerName(source) ,  Config.item .." added to inventory." , FF0000)
+                if Config.Debug then 
                 sendToDiscord( GetPlayerName(source) ,  GetPlayerIdentifiers(source) , FF0000)
+                end
     end
+end
 end
     end
 end)
@@ -71,7 +61,7 @@ function sendToDiscord(name, message, color)
               ["title"] = "**".. name .."**",
               ["description"] = message,
               ["footer"] = {
-                  ["text"] = "Los Santos",
+              ["text"] = "Los Santos",
               },
           }
       }
@@ -100,4 +90,17 @@ AddEventHandler('alertpd', function(data)
                     TriggerClientEvent("qb-phone:client:addPoliceAlert", -1, alertData)
     
 end
+end)
+CreateThread(function()
+    Wait(Config.version)
+
+    local version = GetResourceMetadata(GetCurrentResourceName(), 'version')
+    PerformHttpRequest('https://zap730429-1.plesk12.zap-webspace.com/version.json', function(a, versions, c)
+        versions = json.decode(versions)
+        if version ~= versions.dv_union then
+            print('^1[dv_union]: is outdated, I  recommend update to '..versions.dv_union..' version^0')
+        else
+            print('^2[dv_union]: Your are running current version!^0')
+        end
+    end)
 end)

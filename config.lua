@@ -1,7 +1,9 @@
 Config = {}
-----FRAMEWORK/ALERT----
+----FRAMEWORK/ALERT/DEBUG----
 Config.framework = QB --now only QB 
-Config.alert = 'linden'
+Config.alert = 'linden' -- QB/linden
+Config.Debug = true --some more logs
+Config.version = 10000 --every 10s check for version
 ----BLIP-----
 Config.blip = true
 ----START HEIST----
@@ -16,7 +18,7 @@ Config.collectpoint = vector3(4.69, -675.87, 16.13)--collecting money
 Config.collectpoint1 = vector3(-5.29, -670.0, 16.13)--collecting money
 Config.collectpoint2 = vector3(-7.28, -675.82, 16.13)--collecting money
 Config.collectpoint3 = vector3(3.41, -678.07, 16.13)--collecting money
-Config.TEXTdistance = 7 --distance to show 3D text
+Config.TEXTdistance = 5 --distance to show 3D text
 ----HACKING----
 Config.hack = vector3(-4.33, -686.97, 16.13) --location for hacking/opening vault
 ----ESCAPE----
