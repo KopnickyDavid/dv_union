@@ -10,7 +10,7 @@ mhacking
 </p>
 <h2> Features:</h2>
 <p>
-Optimization 0.05ms idle (working on better)
+Optimization 0.04ms idle (working on better)
   </p>
     <p>
   
