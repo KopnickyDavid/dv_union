@@ -5,7 +5,7 @@ Script that allows you to add more illegal roleplay with Union Depository heist.
   </p>
 <h2> Requirements:</h2>
 <p>
-   [QBCore](https://github.com/qbcore-framework)
+   [QBCore](https://github.com/qbcore-framework/)
  </p>
   <p>
 mhacking
