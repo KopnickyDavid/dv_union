@@ -224,7 +224,7 @@ CreateThread(
                 local v11 = #(coords-Config.escapetext)
                 if GetDistanceBetweenCoords(v7.x,v7.y,v7.z,coords,true)  < distance_until_text_disappears then
                 sleep = false
-                Draw3DText(v7.x, v7.y, v7.zConfig.DrawTexts[1])
+                Draw3DText(v7.x, v7.y, v7.z,Config.DrawTexts[1])
                 if v11 <= 1 then
                 if IsControlJustReleased(0, 38) then
                 if teleport == true then
