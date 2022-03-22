@@ -5,10 +5,10 @@ Script that allows you to add more illegal roleplay with Union Depository heist.
   </p>
 <h2> Requirements:</h2>
 <p>
-   [QBCore](https://github.com/qbcore-framework)
+   [QBCore]https://github.com/qbcore-framework
  </p>
   <p>
-[mhacking](https://github.com/justgreatgaming/FiveM-Scripts-2)
+[mhacking]https://github.com/justgreatgaming/FiveM-Scripts-2
 </p>
 <h2> Features:</h2>
 <p>
