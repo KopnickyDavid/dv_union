@@ -1,17 +1,19 @@
 fx_version 'adamant'
 game 'gta5'
-version '1.1'
-author 'Davitko ve stylu.#3722'
+
+author 'DV-SCRIPT'
+description 'Script that allows you to add more illegal roleplay with Union Depository heist.'
+version '1.2'
+
 server_scripts {
-	'config.lua',
+	'config/server_config.lua',
 	'server/*.lua'
 }
 
 client_scripts {
-	'config.lua',
+	'config/client_config.lua',
 	'client/*.lua'
 }
 
 lua54 'yes'
-
 dependency '/server:4700' -- You must have server artifact at least 4700
