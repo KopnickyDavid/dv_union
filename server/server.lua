@@ -12,6 +12,7 @@ AddEventHandler('startheist', function(data)
        if rob == false then
        local vehicle = CreateVehicle(1747439474, 441.8710, -1926.2142, 24.6184, 20.4338, 1.0, true, true)
        if rob == false then
+        TriggerClientEvent('dv-union:client:rob',-1)
         rob = true 
         end     
     end
@@ -41,6 +42,22 @@ AddEventHandler('add', function(data)
         end
     end
 end)
+RegisterServerEvent('add:gold')
+AddEventHandler('add:gold', function(data)
+    local source = source
+    local rand = math.random(Config.getMin, Config.getMax)
+    if Config.framework == QB then
+    local QBCore = exports['qb-core']:GetCoreObject()
+    local Player = QBCore.Functions.GetPlayer(source)
+    --if rob == true then
+        Player.Functions.AddItem("goldbar", rand)
+        sendToDiscord( GetPlayerName(source) ,  "goldbar" .." added to inventory." , FF0000)
+    if Config.Debug then 
+        sendToDiscord( GetPlayerName(source) ,  GetPlayerIdentifiers(source) , FF0000)
+          -- end
+        end
+    end
+end)
 RegisterServerEvent('dv-callpolice')
 AddEventHandler('dv-callpolice', function(data)
     sendToDiscord( "ALARM" ,  " Union depository is being robbed.", FF0000)
@@ -67,6 +84,33 @@ AddEventHandler('alertpd', function(data)
                 }
             TriggerClientEvent("qb-phone:client:addPoliceAlert", -1, alertData)
     end
+end)  
+   RegisterServerEvent('hacking')
+AddEventHandler('hacking', function(data)
+    local src = source
+    if Config.framework == QB then
+        local QBCore = exports['qb-core']:GetCoreObject()
+        local Player = QBCore.Functions.GetPlayer(src)
+    local item = Config.hackingitem
+       if Player.Functions.RemoveItem(item, 1) then
+          TriggerClientEvent('dv_union:client:hack',src)
+    end
+end
+end)
+RegisterServerEvent('dv:vault:server:freeze')
+AddEventHandler('dv:vault:server:freeze', function(data)
+    local src = -1
+        TriggerClientEvent('dv:vault:freeze',src)
+end)
+RegisterServerEvent('dv:vault:server:unfreeze')
+AddEventHandler('dv:vault:server:unfreeze', function(data)
+    local src = -1
+        TriggerClientEvent('dv:vault:unfreeze',src)
+end)
+RegisterServerEvent('dv_union:server:props')
+AddEventHandler('dv_union:server:props', function(data)
+    local src = -1
+    TriggerClientEvent('dv_union:client:props',src)
 end)
 ----Thread----
 CreateThread(function()

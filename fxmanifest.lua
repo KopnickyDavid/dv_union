@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'DV-SCRIPT'
 description 'Script that allows you to add more illegal roleplay with Union Depository heist.'
-version '1.2'
+version '1.3'
 
 server_scripts {
 	'config/server_config.lua',

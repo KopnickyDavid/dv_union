@@ -6,6 +6,7 @@ Config.blip = true
 ----START HEIST----
 Config.startheist = vector3(443.4632, -1900.1699, 31.7320) --start heist
 ----Collect----
+Config.goldprop = `prop_gold_trolly_full`
 Config.collectpoint = vector3(4.69, -675.87, 16.13)--collecting money
 Config.collectpoint1 = vector3(-5.29, -670.0, 16.13)--collecting money
 Config.collectpoint2 = vector3(-7.28, -675.82, 16.13)--collecting money
