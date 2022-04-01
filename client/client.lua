@@ -3,15 +3,14 @@ local distance_until_text_disappears = Config.textdistance
 local teleport = false --- teleport for base
 local rob = false ---rob for base
 local marker5 = false
-local v1 = Config.collectpoint
-local v2 = Config.collectpoint1
-local v3 = Config.collectpoint2
-local v4 = Config.collectpoint3
-local v5 = Config.hack
-local v6 = Config.startheist
-local v7 = Config.escapetext
-local teleport2 = Config.teleportdowntext
-local teleport1 = Config.teleportuptext
+local v1 = Config.Locations.Collect[1]
+local v2 = Config.Locations.Collect[2]
+local v3 = Config.Locations.Collect[3]
+local v4 = Config.Locations.Collect[4]
+local v5 = Config.Locations.Hack
+local v6 = Config.Locations.Start
+local teleport2 = Config.Locations.Teleports.Down
+local teleport1 = Config.Locations.Teleports.Up
 ----IPL----
 AddEventHandler('onResourceStart', function(resource)
    if resource == GetCurrentResourceName() then
@@ -25,21 +24,19 @@ CreateThread(
         function()
             while true do
                 Wait(0)
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
-                local v11 = #(coords-Config.collectpoint)
+                local ped = PlayerPedId()
+                local player = GetEntityCoords(ped)
+                local distance = #(player - Config.Locations.Collect[1])
                 local sleep = true
-                    if GetDistanceBetweenCoords(v1.x,v1.y,v1.z,coords,true)  < distance_until_text_disappears then
+                if distance < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(v1.x, v1.y, v1.z, Config.DrawTexts[6])
-                    if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
                         TriggerServerEvent('add')  
                         if sleep then
                             Wait(500)
                         end
                     break
-                end
             end    
         end
     end
@@ -48,14 +45,13 @@ CreateThread(
         function()
             while true do
                 Wait(0)
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
+                local ped = PlayerPedId()
+                local player = GetEntityCoords(ped)
+                local distance = #(player - Config.Locations.Collect[2])
                 local sleep = true
-                local v11 = #(coords-Config.collectpoint1)
-                    if GetDistanceBetweenCoords(v2.x,v2.y,v2.z,coords,true)  < distance_until_text_disappears then
+                if distance < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(v2.x, v2.y, v2.z, Config.DrawTexts[6])
-                    if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
                     TriggerServerEvent('add')                    
                     if sleep then
@@ -63,7 +59,6 @@ CreateThread(
                             end
                        break
                     end
-            end
         end
     end
 end)
@@ -71,21 +66,19 @@ CreateThread(
         function()
             while true do
                 Wait(0)
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
-                local v11 = #(coords-Config.collectpoint2)
+                local ped = PlayerPedId()
+                local player = GetEntityCoords(ped)
+                local distance = #(player - Config.Locations.Collect[3])
                 local sleep = true
-                    if GetDistanceBetweenCoords(v3.x,v3.y,v3.z,coords,true)  < distance_until_text_disappears then
+                if distance < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(v3.x, v3.y, v3.z,  Config.DrawTexts[6])
-                    if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
                     TriggerServerEvent('add')            
                     if sleep then
                                Wait(500)
-                            end
-                       break
                     end
+                       break
                 end
         end
     end
@@ -94,22 +87,20 @@ CreateThread(
         function()
             while true do
                 Wait(0)
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
+                local ped = PlayerPedId()
+                local player = GetEntityCoords(ped)
+                local distance = #(player - Config.Locations.Collect[4])
                 local sleep = true
-                local v11 = #(coords-Config.collectpoint3)
-                    if GetDistanceBetweenCoords(v4.x,v4.y,v4.z,coords,true)  < distance_until_text_disappears then
+                if distance < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(v4.x, v4.y, v4.z,  Config.DrawTexts[6])
-                    if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
                     TriggerServerEvent('add')    
                     if sleep then
                                Wait(500)
                             end
                        break
-                    end
-            end
+                end
         end
     end
 end)
@@ -118,20 +109,18 @@ CreateThread(
             while true do
                 Wait(0)
                 if marker5 == true then
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
-                local sleep = true
-                local v11 = #(coords-Config.hack)
-                    if GetDistanceBetweenCoords(v5.x,v5.y,v5.z,coords,true)  < distance_until_text_disappears then
+                    local ped = PlayerPedId()
+                    local player = GetEntityCoords(ped)
+                    local distance = #(player - Config.Locations.Hack)
+                    local sleep = true
+                    if distance < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(v5.x, v5.y, v5.z,  Config.DrawTexts[5])
-                    if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
                     TriggerServerEvent('hacking')
                     if sleep then
                         Wait(500)
                         end
-                    end
                 end
             end
         end
@@ -141,23 +130,19 @@ CreateThread(
         function()
             while true do
                 Wait(0)
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
+                local ped = PlayerPedId()
+                local player = GetEntityCoords(ped)
+                local distance = #(player - Config.Locations.Start)
                 local sleep = true
-                local v11 = #(coords-Config.startheist)
-                    if GetDistanceBetweenCoords(v6.x,v6.y,v6.z,coords,true)  < distance_until_text_disappears then
+                if distance < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(v6.x, v6.y, v6.z,Config.DrawTexts[4])
-                    if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
-                    TriggerServerEvent('dv_union:server:props')
-                    TriggerServerEvent('dv:vault:server:freeze')
                     TriggerEvent('dv-union:client:ipl:v6')
                     if sleep then
                            Wait(500)
-                        end
+                    end
                    break
-                end
             end
         end                
     end
@@ -166,20 +151,18 @@ CreateThread(
         function()
             while true do
                 Wait(0)
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
                 local sleep = true
-                local v11 = #(coords-Config.teleportuptext)
-                if GetDistanceBetweenCoords(teleport1.x,teleport1.y,teleport1.z,coords,true)  < distance_until_text_disappears then
+                local ped = PlayerPedId()
+                local player = GetEntityCoords(ped)
+                local distance = #(player - Config.Locations.Teleports.Up)
+                if distance < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(teleport1.x, teleport1.y, teleport1.z,  Config.DrawTexts[3])
-                    if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
-                    teleportToCoords(player,Config.teleportup)
+                    teleportToCoords(ped,Config.Locations.Teleports.Down)
                     if sleep then
                         Wait(500)
                     end
-                end
             end
         end
     end
@@ -188,20 +171,18 @@ CreateThread(
         function()
             while true do
                 Wait(0)
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
-                local v11 = #(coords-Config.teleportdowntext)
+                local ped = PlayerPedId()
+                local player = GetEntityCoords(ped)
+                local distance = #(player - Config.Locations.Teleports.Down)
                 local sleep = true
-                if GetDistanceBetweenCoords(teleport2.x,teleport2.y,teleport2.z,coords,true)  < distance_until_text_disappears then
+                if distance < distance_until_text_disappears then
                     sleep = false
                     Draw3DText(teleport2.x, teleport2.y, teleport2.z,  Config.DrawTexts[2])
-                    if v11 <= 1 then
                     if IsControlJustReleased(0, 38) then
-                    teleportToCoords(player,Config.teleportdown)
+                    teleportToCoords(ped,Config.Locations.Teleports.Up)
                     if sleep then
                         Wait(500)
                     end
-                end
             end
         end
     end
@@ -210,21 +191,19 @@ CreateThread(
         function()
             while true do
                 Wait(0)
-                local player = PlayerPedId()
-                local coords = GetEntityCoords(player)
+                local ped = PlayerPedId()
+                local player = GetEntityCoords(ped)
                 local sleep = true
-                local v11 = #(coords-Config.escapetext)
-                if GetDistanceBetweenCoords(v7.x,v7.y,v7.z,coords,true)  < distance_until_text_disappears then
+                local distance = #(player - Config.Locations.Escape.TextCoords)
+                if distance < distance_until_text_disappears then
                 sleep = false
-                Draw3DText(v7.x, v7.y, v7.z,Config.DrawTexts[1])
-                if v11 <= 1 then
+                Draw3DText(Config.Locations.Escape.TeleportCoords.x, Config.Locations.Escape.TeleportCoords.y, Config.Locations.Escape.TeleportCoords.z,Config.DrawTexts[1])
                 if IsControlJustReleased(0, 38) then
                 teleportToCoords(player,Config.escape)
                 TriggerEvent('dv-unionrobbery:client:stoprobbery')
                 if sleep then
                                 Wait(500)
                        break
-                    end
                 end
             end
         end
@@ -269,7 +248,6 @@ CreateThread(function ()
         while true do
           Wait(0)
           local src = source
-
           local ped = PlayerPedId()
           local player = GetEntityCoords(ped)
           local pos = vector3(10.26, -662.96, 15.13)
@@ -300,6 +278,8 @@ RegisterNetEvent('dv_union:client:props', function(data)
 RegisterNetEvent('dv-union:client:ipl:v6')
 AddEventHandler('dv-union:client:ipl:v6', function(data)
     TriggerServerEvent('startheist') 
+    TriggerServerEvent('dv_union:server:props')
+    TriggerServerEvent('dv:vault:server:freeze',-1)
     marker5 = true
     if teleport == false then
         teleport = true 
@@ -336,10 +316,8 @@ AddEventHandler('dv-union:hacking:success', function(data)
 end)
 RegisterNetEvent('dv:vault:freeze')
 AddEventHandler('dv:vault:freeze', function(source)
-    DV = {
         vault = {x = -1.72947, y = -686.5417, z = 16.68913, type = "v_ilev_fin_vaultdoor"}
-    }
-    local obj = GetClosestObjectOfType(DV.vault.x, DV.vault.y, DV.vault.z, 2.0, GetHashKey(DV.vault.type), false, false, false)
+    local obj = GetClosestObjectOfType(vault.x, vault.y, vault.z, 2.0, GetHashKey(vault.type), false, false, false)
     FreezeEntityPosition(obj, true)
 end)
 RegisterNetEvent('dv:vault:unfreeze')

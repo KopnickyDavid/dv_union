@@ -98,18 +98,16 @@ AddEventHandler('hacking', function(data)
 end
 end)
 RegisterServerEvent('dv:vault:server:freeze')
-AddEventHandler('dv:vault:server:freeze', function(data)
-    local src = -1
-        TriggerClientEvent('dv:vault:freeze',src)
+AddEventHandler('dv:vault:server:freeze', function(source)
+    TriggerClientEvent('dv:vault:freeze',-1)
 end)
 RegisterServerEvent('dv:vault:server:unfreeze')
 AddEventHandler('dv:vault:server:unfreeze', function(data)
-    local src = -1
-        TriggerClientEvent('dv:vault:unfreeze',src)
+        TriggerClientEvent('dv:vault:unfreeze',-1)
 end)
 RegisterServerEvent('dv_union:server:props')
 AddEventHandler('dv_union:server:props', function(data)
-    local src = -1
+    local src = source
     TriggerClientEvent('dv_union:client:props',src)
 end)
 ----Thread----
