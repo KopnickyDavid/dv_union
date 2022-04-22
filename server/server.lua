@@ -1,5 +1,6 @@
 ----LOCALS----
 local rob = false
+local inheist = false
 local QBCore = exports['qb-core']:GetCoreObject()
 
 if GetCurrentResourceName() ~= 'dv_union' then
@@ -8,21 +9,22 @@ if GetCurrentResourceName() ~= 'dv_union' then
 end
 print('[dv_union]: ^2Resource started successfuly^0')
 ----EVENTS----
-
+RegisterNetEvent('dv:check', function(data)
+    inheist = data
+end)
 RegisterServerEvent('add')
 AddEventHandler('add', function()
-    local source = source
     local rand = math.random(Config.getMin, Config.getMax)
     if Config.framework == QB then
     local Player = QBCore.Functions.GetPlayer(source)
-    if rob == true then
+    if rob and inheist then
         Player.Functions.AddItem(Config.item, rand)
         sendToDiscord( GetPlayerName(source) ,  Config.item .." added to inventory." , FF0000)
     if Config.Debug then 
         sendToDiscord( GetPlayerName(source) ,  GetPlayerIdentifiers(source) , FF0000)
     elseif Config.framework == ESX then
     local Player = QBCore.Functions.GetPlayer(source)
-    if rob == true then
+    if rob  then
         Player.Functions.AddItem(Config.item, rand)
         sendToDiscord( GetPlayerName(source) ,  Config.item .." added to inventory." , FF0000)
     if Config.Debug then 

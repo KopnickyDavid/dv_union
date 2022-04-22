@@ -7,6 +7,7 @@ local hacked = false
 local collectingtime = true
 local props = false
 ----IPL----
+
 AddEventHandler('onResourceStart', function(resource)
    if resource == GetCurrentResourceName() then
      if Config.ipl == 'dv_union' then
@@ -14,6 +15,22 @@ AddEventHandler('onResourceStart', function(resource)
      end
    end
 end)
+local zone = CircleZone:Create(vector3(1.23, -675.12, 16.13), 100.0, {
+    name="union",
+    useZ=false,
+    debugPoly=true,
+})
+
+zone:onPointInOut(PolyZone.getPlayerPosition, function(isPointInside, point)
+        if isPointInside then
+            local data = true
+          TriggerServerEvent('dv:check',data)
+        else
+            local data = false
+            TriggerServerEvent('dv:check',data)
+        end
+end)
+
 CreateThread(
         function()
             while true do
