@@ -5,6 +5,7 @@ local rob = false ---rob for base
 local freezed = false
 local hacked = false
 local collectingtime = true
+local props = false
 ----IPL----
 AddEventHandler('onResourceStart', function(resource)
    if resource == GetCurrentResourceName() then
@@ -218,12 +219,15 @@ CreateThread(function()
 end)
 ----EVENTS----
 RegisterNetEvent('dv_union:client:props', function()
+    if props == false then
     local trolly = CreateObject(`prop_gold_trolly_full`,11.7256, -662.7592, 15.01, true, false, false)
     SetEntityHeading(trolly, 180)
     FreezeEntityPosition(trolly, true)
     local trolly2 = CreateObject(`prop_gold_trolly_full`,10.4343, -662.4464, 15.01, true, false, false)
     SetEntityHeading(trolly2, 180)
     FreezeEntityPosition(trolly2, true)
+    props = true
+    end
 end)
 RegisterNetEvent('dv-union:client:ipl:v6')
 AddEventHandler('dv-union:client:ipl:v6', function()
