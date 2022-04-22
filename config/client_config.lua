@@ -2,10 +2,9 @@ Config = {}
 ----IPL----
 Config.ipl = 'dv_union' -- if you already have ipl loader change to other name
 ----BLIP-----
-Config.blip = true
+Config.blip = true -- false = disable blip 
 ----Collect----
-Config.goldprop = `prop_gold_trolly_full`
-Config.textdistance = 3 --distance to show 3D text
+Config.textdistance = 5 --distance to show 3D text
 ----LOCATIONS----
 Config.Locations = {
   Start = vector3(443.4632, -1900.1699, 31.7320),
@@ -21,16 +20,17 @@ Config.Locations = {
     TextCoords = vector3(6.08, -659.55, 16.13)
   },
   Teleports = {
-    Up = vector3(9.89, -668.18, 33.45), -- Lokace kde budeš teleportovat
+    Up = vector3(9.89, -668.18, 33.45), 
     Down = vector3(1.08, -702.76, 16.13)
   }
 }
 ----DRAWTEXT----
-Config.DrawTexts = {
+Config.DrawTexts = { 
     "[E] to escape",
     "[E] DOWN", 
     "[E] UP",
     "[E] to start heist",
     "[E] to open vault",
     "[E] to collect money",
+    "Collecting money"
   }

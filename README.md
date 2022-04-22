@@ -1,18 +1,16 @@
 # DV-Union
 Script that allows you to add more illegal roleplay with Union Depository heist.
-<p>
-  Showcase: https://www.youtube.com/watch?v=opcU9vg_2X8
-  </p>
+
 <h2> Requirements:</h2>
 <p>
-   [QBCore]https://github.com/qbcore-framework
+  QBCORE framework
  </p>
   <p>
-[mhacking]https://github.com/justgreatgaming/FiveM-Scripts-2
+mhacking
 </p>
 <h2> Features:</h2>
 <p>
-Optimization 0.04ms idle (working on better)
+Optimization 0.02 - 0.03ms idle (working on better)
   </p>
     <p>
   
