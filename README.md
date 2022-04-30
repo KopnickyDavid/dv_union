@@ -11,23 +11,25 @@ mhacking
 <h2> Features:</h2>
 <p>
 Optimization 0.02 - 0.03ms idle (working on better)
-  </p>
-    <p>
-  
+</p>
+<p>
 Sync across all players
-  </p>
-        <p>
+</p>
+<p>
 Huge config option
-  </p>
-            <p>
+</p>
+<p>
 Police notification with linden outlawalerts
-  </p>
-                <p>
+</p>
+<p>
 Discord logs
 </p>
 <h2>Planed updates:</h2>
-  <p>Camera system for police</p>
   <p>Vault control for police</p> 
   <p>Multi-framework support</p>
-  <p>Debug mode</p>
   <p>Support more hacking scripts</p>
+<h1>INSTALLATION</h1>
+
+<h2>Item</h2>
+```	['cashroll'] 			 = {['name'] = 'cashroll', 			  	['label'] = 'Roll of cash', 			['weight'] = 20, 		['type'] = 'item', 		['image'] = 'cashroll.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Roll of cash '},
+```

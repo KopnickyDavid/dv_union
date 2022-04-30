@@ -2,9 +2,9 @@ Config = {}
 ----IPL----
 Config.ipl = 'dv_union' -- if you already have ipl loader change to other name
 ----BLIP-----
-Config.blip = true -- false = disable blip 
+Config.blip = false -- false = disable blip 
 ----Collect----
-Config.textdistance = 5 --distance to show 3D text
+Config.textdistance = 2.5 --distance to show 3D text
 ----LOCATIONS----
 Config.Locations = {
   Start = vector3(443.4632, -1900.1699, 31.7320),

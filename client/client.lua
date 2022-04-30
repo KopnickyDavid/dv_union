@@ -1,13 +1,11 @@
 ----locals----
 local QBCore = exports['qb-core']:GetCoreObject()
-local teleport = false --- teleport for base
-local rob = false ---rob for base
+local rob = false 
 local freezed = false
 local hacked = false
 local collectingtime = true
-local props = false
+local obj = GetClosestObjectOfType(-1.72947, -686.5417, 16.68913, 2.0, GetHashKey("v_ilev_fin_vaultdoor"), false, false, false)
 ----IPL----
-
 AddEventHandler('onResourceStart', function(resource)
    if resource == GetCurrentResourceName() then
      if Config.ipl == 'dv_union' then
@@ -15,10 +13,11 @@ AddEventHandler('onResourceStart', function(resource)
      end
    end
 end)
+----POLYZONE----
 local zone = CircleZone:Create(vector3(1.23, -675.12, 16.13), 100.0, {
     name="union",
     useZ=false,
-    debugPoly=true,
+    debugPoly=false,
 })
 
 zone:onPointInOut(PolyZone.getPlayerPosition, function(isPointInside, point)
@@ -30,56 +29,37 @@ zone:onPointInOut(PolyZone.getPlayerPosition, function(isPointInside, point)
             TriggerServerEvent('dv:check',data)
         end
 end)
-
+----THREADS----
+--collecting money
 CreateThread(
         function()
             while true do
                 Wait(0)
+                if rob ==true then
                 for k, collect in pairs(Config.Locations.Collect) do 
                 local ped = PlayerPedId()
                 local player = GetEntityCoords(ped)
                 local distance = #(player - collect)
                 if distance < Config.textdistance and  collectingtime then
                     Draw3DText(collect.x, collect.y, collect.z, Config.DrawTexts[6])
-                    if IsControlJustReleased(0, 38) then
-                        QBCore.Functions.Progressbar(Config.DrawTexts[7], Config.DrawTexts[7], math.random(3000, 5000), false, true, {
+                if IsControlJustReleased(0, 38) then
+                    QBCore.Functions.Progressbar(Config.DrawTexts[7], Config.DrawTexts[7], math.random(3000, 5000), false, true, {
                             disableMovement = true,
                             disableCarMovement = true,
                             disableMouse = false,
                             disableCombat = true,
-                        }, {}, {}, {},function() 
-                    TriggerServerEvent('add') 
+                    }, {}, {}, {},function() 
+                    TriggerServerEvent('dv-unionrobbery:server:addmoney') 
                     Wait(120000)
                     collectingtime = false   
                     end)        
                 end
-            end
-        end
+             end
+         end
+      end
     end
 end)
-
-CreateThread(
-        function()
-            while true do
-                Wait(0)
-                if rob == true  then
-                    local ped = PlayerPedId()
-                    local player = GetEntityCoords(ped)
-                    local distance = #(player - Config.Locations.Hack)
-                    local sleep = true
-                    if distance < Config.textdistance and  hacked == false then
-                    sleep = false
-                    Draw3DText(Config.Locations.Hack.x, Config.Locations.Hack.y, Config.Locations.Hack.z,  Config.DrawTexts[5])
-                    if IsControlJustReleased(0, 38) then
-                    TriggerServerEvent('hacking')
-                    if sleep then
-                        Wait(500)
-                        end
-                end
-            end
-        end
-    end
-end)  
+--starting heist
 CreateThread(
         function()
             while true do
@@ -94,58 +74,80 @@ CreateThread(
                     Draw3DText(Config.Locations.Start.x, Config.Locations.Start.y, Config.Locations.Start.z,Config.DrawTexts[4])
                     if IsControlJustReleased(0, 38) then
                     TriggerEvent('dv-union:client:ipl:v6')
-                    break
-                    elseif sleep then
-                    Wait(1000)
-                    end          
-        end          
-    end      
-    end
+                if sleep then
+                  Wait(2500)
+              end    
+            end      
+        end      
+      end
+   end
 end)
+--hacking  
+CreateThread(function()
+    while true do
+        Wait(0)
+    if rob == false then
+        local ped = PlayerPedId()
+        local player = GetEntityCoords(ped)
+        local distance1 = #(player - Config.Locations.Hack)
+        local sleep = true
+    if  distance1 < Config.textdistance and  hacked == false then
+        sleep = false
+        Draw3DText(Config.Locations.Hack.x, Config.Locations.Hack.y, Config.Locations.Hack.z,  Config.DrawTexts[5])
+        if IsControlJustReleased(0, 38) then
+        TriggerServerEvent('hacking')
+    elseif sleep then
+        Wait(2500)
+         end   
+       end
+     end
+   end
+end)
+----TELEPORTS---- 
+CreateThread(function()
+    while true do
+        Wait(0)
+        local ped = PlayerPedId()
+        local player = GetEntityCoords(ped)
+        local distance2 = #(player - Config.Locations.Teleports.Up)
+        local sleep = true
+    if distance2 < Config.textdistance then
+        sleep = false
+        Draw3DText(Config.Locations.Teleports.Up.x, Config.Locations.Teleports.Up.y, Config.Locations.Teleports.Up.z,  Config.DrawTexts[3])
+        if IsControlJustReleased(0, 38) then
+        teleportToCoords(ped,Config.Locations.Teleports.Down)
+    if sleep then
+        Wait(2500)
+         end
+       end   
+     end
+   end
+end)
+CreateThread(function()
+    while true do
+        Wait(0)
+        local ped = PlayerPedId()
+        local player = GetEntityCoords(ped)
+        local distance3 = #(player - Config.Locations.Teleports.Down)
+        local sleep = true
+    if distance3 < Config.textdistance then
+        sleep = false
+        Draw3DText(Config.Locations.Teleports.Down.x, Config.Locations.Teleports.Down.y, Config.Locations.Teleports.Down.z,  Config.DrawTexts[2])
+        if IsControlJustReleased(0, 38) then
+        teleportToCoords(ped,Config.Locations.Teleports.Up)
+    if sleep then
+        Wait(2500)
+     end   
+end
+end
+end
+end)
+--stop robbery
 CreateThread(
         function()
             while true do
                 Wait(0)
-                local sleep = true
-                local ped = PlayerPedId()
-                local player = GetEntityCoords(ped)
-                local distance = #(player - Config.Locations.Teleports.Up)
-                if distance < Config.textdistance then
-                    sleep = false
-                    Draw3DText(Config.Locations.Teleports.Up.x, Config.Locations.Teleports.Up.y, Config.Locations.Teleports.Up.z,  Config.DrawTexts[3])
-                    if IsControlJustReleased(0, 38) then
-                    teleportToCoords(ped,Config.Locations.Teleports.Down)
-                    if sleep then
-                        Wait(500)
-                    end
-            end
-        end
-    end
-end)
-CreateThread(
-        function()
-            while true do
-                Wait(0)
-                local ped = PlayerPedId()
-                local player = GetEntityCoords(ped)
-                local distance = #(player - Config.Locations.Teleports.Down)
-                local sleep = true
-                if distance < Config.textdistance then
-                    sleep = false
-                    Draw3DText(Config.Locations.Teleports.Down.x, Config.Locations.Teleports.Down.y, Config.Locations.Teleports.Down.z,  Config.DrawTexts[2])
-                    if IsControlJustReleased(0, 38) then
-                    teleportToCoords(ped,Config.Locations.Teleports.Up)
-                    if sleep then
-                        Wait(500)
-                    end
-            end
-        end
-    end
-end)
-CreateThread(
-        function()
-            while true do
-                Wait(0)
+            if rob == true then
                 local ped = PlayerPedId()
                 local player = GetEntityCoords(ped)
                 local sleep = true
@@ -155,143 +157,79 @@ CreateThread(
                 Draw3DText(Config.Locations.Escape.TextCoords.x, Config.Locations.Escape.TextCoords.y, Config.Locations.Escape.TextCoords.z,Config.DrawTexts[1])
                 if IsControlJustReleased(0, 38) then
                 teleportToCoords(ped,Config.Locations.Escape.TeleportCoords)
-                TriggerEvent('dv-unionrobbery:client:stoprobbery')
-                if sleep then
-                                Wait(500)
-                       
-                end
+                TriggerServerEvent('dv-unionrobbery:server:stoprobbery')
+            if sleep then
+                Wait(5000)   
+                  end
+               end
             end
         end
     end
 end)
+-- blip
 CreateThread(function()
     if Config.blip then
-    local Dealer = AddBlipForCoord( -5.6612, -669.8186, 32.3381)
-    SetBlipSprite (Dealer, 475  )
-    SetBlipDisplay(Dealer, 4)
-    SetBlipScale  (Dealer, 0.7)
-    SetBlipAsShortRange(Dealer, true)
-    SetBlipColour(Dealer, 3)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("Union Depository")
-    EndTextCommandSetBlipName(Dealer) 
+    blip( -5.6612, -669.8186, 32.3381)
     end
 end)
-CreateThread(function ()
-    while true do
-      Wait(0)
- local src = source
-      local ped = PlayerPedId()
-      local player = GetEntityCoords(ped)
-      local pos = vector3(11.54, -663.25, 15.13)
-      local distance = #(player - pos)
-      local sleep = true
-    if distance < 1.2 then
-        sleep = false
-          DrawMarker(27, pos.x, pos.y, pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.0001,1.0001,0.5001,0,155,255, 100, false, true, 2, false, false, false, false)
-    if IsControlJustReleased(0, 38) then
-    TriggerServerEvent('add:gold')
-    break
-      end
-      end
-    if sleep then
-                Wait(1000)
-              end
-    end
-    end)
-    CreateThread(function ()
-        while true do
-          Wait(0)
-          local ped = PlayerPedId()
-          local player = GetEntityCoords(ped)
-          local pos = vector3(10.26, -662.96, 15.13)
-          local distance = #(player - pos)
-          local sleep = true
-        if distance < 1.2 then
-            sleep = false
-              DrawMarker(27, pos.x, pos.y, pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.0001,1.0001,0.5001,0,155,255, 100, false, true, 2, false, false, false, false)
-        if IsControlJustReleased(0, 38) then
-        TriggerServerEvent('add:gold')
-        break
-          end
-          end
-        if sleep then
-                    Wait(1000)
-            end
-        end
-end)
-
+--freezing vault
 CreateThread(function()
     while true do
-        Wait(2500)
+        Wait(0)
+        if rob == true then
         local ped = PlayerPedId()
         local player = GetEntityCoords(ped)
         local pos = vector3(1.15, -702.66, 16.13)
         local distance = #(player - pos)
-        if distance < 5.0 and freezed == false and hacked == false then
-            TriggerServerEvent('testing')
+        if distance < 5.0 and freezed == false and hacked == false and rob == true then
+            TriggerServerEvent('dv-unionrobbery:server:freeze')
             freezed = true
         end
     end
+    end
 end)
 ----EVENTS----
-RegisterNetEvent('dv_union:client:props', function()
-    if props == false then
-    local trolly = CreateObject(`prop_gold_trolly_full`,11.7256, -662.7592, 15.01, true, false, false)
-    SetEntityHeading(trolly, 180)
-    FreezeEntityPosition(trolly, true)
-    local trolly2 = CreateObject(`prop_gold_trolly_full`,10.4343, -662.4464, 15.01, true, false, false)
-    SetEntityHeading(trolly2, 180)
-    FreezeEntityPosition(trolly2, true)
-    props = true
-    end
-end)
-RegisterNetEvent('dv-union:client:ipl:v6')
-AddEventHandler('dv-union:client:ipl:v6', function()
-    TriggerServerEvent('dv:server:start') 
-    TriggerServerEvent('testing')
-    if teleport == false then
-        teleport = true 
-    end
-end)
-RegisterNetEvent('dv-union:client:rob')
-AddEventHandler('dv-union:client:rob', function()
-            rob = true 
-end)
-RegisterNetEvent("dv-unionrobbery:client:stoprobbery")
-AddEventHandler("dv-unionrobbery:client:stoprobbery", function(method)
-    if rob == true then 
-        TriggerServerEvent('dv-unionrobbery:server:stoprobbery')
-        rob = false
-    if teleport == true then
-        teleport = false
-       end
-    end
-end)
-RegisterNetEvent('dv_union:client:hack')
-AddEventHandler('dv_union:client:hack', function()
+--hacking
+RegisterNetEvent('dv_union:client:hack', function()
 TriggerEvent("mhacking:show")
 TriggerEvent("mhacking:start",7,35,mycb)
 end)
-
-RegisterNetEvent('dv-union:hacking:success')
-AddEventHandler('dv-union:hacking:success', function()
-    TriggerServerEvent('alertpd')
+--stoping robbery
+RegisterNetEvent('dv-unionrobbery:client:stoprobbery', function()
+    Wait(180000)
+    if rob == true then 
+        rob = false
+    end
+end)
+--rob
+RegisterNetEvent('dv-union:client:rob', function()
+    rob = true 
+end)
+--starting
+RegisterNetEvent('dv-union:client:ipl:v6', function()
+    TriggerServerEvent('dv:server:start') 
+end)
+--hacking success
+RegisterNetEvent('dv-union:hacking:success', function()
+    TriggerServerEvent('dv-union:server:callpd')
     TriggerServerEvent('dv:vault:server:unfreeze')
     TriggerEvent('mhacking:hide')
 end)
-RegisterNetEvent('dv:vault:freeze')
-AddEventHandler('dv:vault:freeze', function()
-    FreezeEntityPosition(GetClosestObjectOfType(-1.72947, -686.5417, 16.68913, 2.0, GetHashKey("v_ilev_fin_vaultdoor"), false, false, false), true)
+--freezing
+RegisterNetEvent('dv:vault:freeze', function()
+    FreezeEntityPosition(obj, true)
+    freezed = true
 end)
-RegisterNetEvent('dv:vault:unfreeze')
-AddEventHandler('dv:vault:unfreeze', function()
-    FreezeEntityPosition(GetClosestObjectOfType(-1.72947, -686.5417, 16.68913, 2.0, GetHashKey("v_ilev_fin_vaultdoor"), false, false, false), false)
+--unfreezing
+RegisterNetEvent('dv:vault:unfreeze', function()
+    FreezeEntityPosition(obj, false)
 end)
+--hacked
 RegisterNetEvent('dv:client:hacked', function()
     hacked = true
 end)
 ----FUNCTION----
+--mhacking
 function mycb(success, timeremaining)
 	if success then
 TriggerEvent('dv-union:hacking:success')
@@ -300,19 +238,21 @@ TriggerServerEvent('dv:server:hacked')
 		TriggerEvent('mhacking:hide')
 	end
 end
+--teleporting
 function teleportToCoords(ped, x, y, z, heading)
-    CreateThread( -- Anything that requires a loop will require a thread, else the code will lock and crash
+    CreateThread( 
       function()
-        DoScreenFadeOut(500)
+        DoScreenFadeOut(250)
         while not IsScreenFadedOut() do
           Wait(0)
         end
         SetEntityCoords(ped, x, y, z)
         SetEntityHeading(ped, heading)
-        DoScreenFadeIn(500)
+        DoScreenFadeIn(250)
       end)
   end
-  function Draw3DText(x, y, z, text)
+--drawtext
+function Draw3DText(x, y, z, text)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     if onScreen then
         SetTextScale(0.35, 0.35)
@@ -325,4 +265,16 @@ function teleportToCoords(ped, x, y, z, heading)
         AddTextComponentString(text)
         DrawText(_x, _y)
     end
+end
+--blip
+function blip(x,y,z)
+    local Dealer = AddBlipForCoord(x, y,z)
+    SetBlipSprite (Dealer, 475  )
+    SetBlipDisplay(Dealer, 4)
+    SetBlipScale  (Dealer, 0.7)
+    SetBlipAsShortRange(Dealer, true)
+    SetBlipColour(Dealer, 3)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentSubstringPlayerName("Union Depository")
+    EndTextCommandSetBlipName(Dealer) 
 end
