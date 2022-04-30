@@ -35,4 +35,4 @@ Discord logs
 <h2>Item</h2>
 ['cashroll'] 			 = {['name'] = 'cashroll', 			  	['label'] = 'Roll of cash', 			['weight'] = 20, 		['type'] = 'item', 		['image'] = 'cashroll.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Roll of cash '},
 
-<h1>Crated by Davee|Discord support: https://discord.gg/hT8bahGHCb<h1>
+<h1>Crated by Davee|Discord support:https://discord.gg/hT8bahGHCb<h1>
