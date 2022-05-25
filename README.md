@@ -1,17 +1,18 @@
-# DV-Unoom
+# DV-Uniom
 Script that allows you to add more illegal roleplay with union depository heist.
 
+# Showcase
+https://youtu.be/opcU9vg_2X8
 <h2> Requirements:</h2>
 
 <p>
   
   [QBCORE framework]([url](https://github.com/qbcore-framework))
-
 </p>
-
+<P>Mhacking 
 
 <h2> Features:</h2>
-<P>Usable item<\p>
+<P>Usable item
 <p>
 Optimization 0.01 idle
 </p>
@@ -35,4 +36,10 @@ Cheater protection for giving money or items
 <p>3.Put ensure dv_union inside server.cfg</p>
 <p>4.Put doors.lua inside qb-doorlock/configs</p>
 <P>5.Restart your server and everything should work<\p>
+
+
+<h2>Item</h2>
+['cashroll'] 			 = {['name'] = 'cashroll', 			  	['label'] = 'Roll of cash', 			['weight'] = 20, 		['type'] = 'item', 		['image'] = 'cashroll.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Roll of cash '},
+
+
 <h1>Crated by Davee|Discord support:https://discord.gg/hT8bahGHCb<h1>
