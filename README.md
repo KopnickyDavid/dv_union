@@ -38,7 +38,7 @@ Cheater protection for giving money or items
 
 <h2>Item</h2>
 <p>QB</p>
-['cashroll'] 			 = {['name'] = 'cashroll', 			  	['label'] = 'Roll of cash', 			['weight'] = 20, 		['type'] = 'item', 		['image'] = 'cashroll.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Roll of cash '},
+<p>['cashroll'] 			 = {['name'] = 'cashroll', 			  	['label'] = 'Roll of cash', 			['weight'] = 20, 		['type'] = 'item', 		['image'] = 'cashroll.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Roll of cash '},</p>
 <p>ESX</p>
 import esx.sql to database
 
