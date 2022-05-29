@@ -8,7 +8,7 @@ https://youtu.be/opcU9vg_2X8
 <p>
   
   [QBCORE framework]([url](https://github.com/qbcore-framework))
-  [ESX framework]
+ <p> ESX framework</p>
 </p>
 <P>mhacking 
 
