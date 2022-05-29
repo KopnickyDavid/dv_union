@@ -1,7 +1,5 @@
 ----LOCALS----
 local rob = false
-local inheist = false
-local QBCore = exports['qb-core']:GetCoreObject()
 ----RESOURCE NAME----
 if GetCurrentResourceName() ~= 'dv_union' then
     print('[dv_union]: ^1You are not allowed to change the resource name ^0')
@@ -9,21 +7,38 @@ if GetCurrentResourceName() ~= 'dv_union' then
 end
 print('[dv_union]: ^2Resource started successfuly^0')
 ----EVENTS----
---checking if player is in polyzone
-RegisterNetEvent('dv:check', function(data)
-    inheist = data
-end)
 --adding money
 RegisterNetEvent('dv-unionrobbery:server:addmoney', function()
     local rand = math.random(Config.getMin, Config.getMax)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if rob and inheist then
+    if rob  then
+        local ped = GetPlayerPed(source)
+        local playerCoords = GetEntityCoords(ped)
+        local distance = #(playerCoords - vector3(-4.37, -690.07, 16.13))
+        local name = GetPlayerName(source)
+        local license = GetPlayerIdentifier(source,0)
+        local id1 = GetPlayerIdentifier(source,1)
+        local id2 = GetPlayerIdentifier(source,2)
+        local id3 = GetPlayerIdentifier(source,4)
+    if distance < 30 then
+        if Config.framework == 'qb' then
+        local QBCore = exports['qb-core']:GetCoreObject()
+        local Player = QBCore.Functions.GetPlayer(source)
         Player.Functions.AddItem(Config.item, rand)
         sendToDiscord( GetPlayerName(source) ,  Config.item .." added to inventory." , FF0000)
+        end
+        if Config.framework == 'esx' then
+            local ESX = exports["es_extended"]:getSharedObject()
+            local xPlayer = ESX.GetPlayerFromId(source)
+        xPlayer.addInventoryItem(Config.item, rand)
+        sendToDiscord( GetPlayerName(source) ,  Config.item .." added to inventory." , FF0000)
+        end
     if Config.Debug then 
         sendToDiscord( GetPlayerName(source) ,  GetPlayerIdentifiers(source) , FF0000)
            end
     end
+else
+    TriggerEvent('dv-union:server:log',"Danger collecting item","**".."Player is probaly using cheats because distance is:"..' '..distance .."**".."\n ".."**".."Steam name:"..' '.."**"..name.."\n ".."**".."License:".."**"..' '..license.."\n".."**".."Discord:".."**"..' '..id1.."\n".."**".."Fivem:"..' '.."**"..id2.."\n".."**".."IP:"..' '.."**"..id3,EE2F06)
+end
 end)
 --stoping robbery
 RegisterNetEvent('dv-unionrobbery:server:stoprobbery', function()
@@ -57,10 +72,20 @@ RegisterNetEvent('dv:server:hacked', function()
     TriggerClientEvent('dv:client:hacked',-1)
 end)
 RegisterNetEvent('hacking', function()
+    if Config.framework == 'qb' then
+    local QBCore = exports['qb-core']:GetCoreObject()
         local Player = QBCore.Functions.GetPlayer(source)
     local item = Config.hackingitem
        if Player.Functions.RemoveItem(item, 1) then
           TriggerClientEvent('dv_union:client:hack',source)
+end
+end
+if Config.framework == 'esx' then
+    local ESX = exports["es_extended"]:getSharedObject()
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if xPlayer.removeInventoryItem(Config.hackingitem, 1)  then
+        TriggerClientEvent('dv_union:client:hack',source)
+    end
 end
 end)
 --unfreezing vault
@@ -80,27 +105,23 @@ RegisterNetEvent('dv-unionrobbery:server:freeze', function()
     TriggerClientEvent('dv:vault:freeze',-1)
 end)
 --usable item
+if Config.framework == 'qb' then
+    local QBCore = exports['qb-core']:GetCoreObject()
 QBCore.Functions.CreateUseableItem("cashroll", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.RemoveItem(item.name, 1) then
         Player.Functions.AddMoney('cash', Config.givecash)
     end
 end)
-----Thread----
--- version check
-CreateThread(function()
-    Wait(Config.version)
-    local version = GetResourceMetadata(GetCurrentResourceName(), 'version')
-    PerformHttpRequest('https://zap730429-1.plesk12.zap-webspace.com/version.json', function(a, versions, c)
-        versions = json.decode(versions)
-        if version ~= versions.dv_union then
-            print('^1[dv_union]:  I  recommend update to '..versions.dv_union..' version^0')
-        else
-            print('^2[dv_union]: Your are running current version!^0')
-        end
+end
+if Config.framework == 'esx' then
+    local ESX = exports["es_extended"]:getSharedObject()
+    ESX.RegisterUsableItem("cashroll", function(source)
+        local xPlayer = ESX.GetPlayerFromId(source)
+         xPlayer.removeInventoryItem('cashroll', 1) 
+         xPlayer.addMoney(Config.givecash)
     end)
-end)
-----FUNCTION---- 
+end
 --webhook
 function sendToDiscord(name, message, color)
     local connect = {
@@ -115,3 +136,16 @@ function sendToDiscord(name, message, color)
       }
     PerformHttpRequest(Config.webhook, function(err, text, headers) end, 'POST', json.encode({username =  "dv_union", embeds = connect, avatar_url = "https://cdn.discordapp.com/icons/866965773623623691/d2013f3fb9135be5492dc98e45df0f4d.webp?size=128"}), { ['Content-Type'] = 'application/json' })
   end
+RegisterNetEvent('dv-union:server:log', function(name, message, color)
+    local connect = {
+        {
+            ["color"] = color,
+            ["title"] = "**".. name .."**",
+            ["description"] = message,
+            ["footer"] = {
+            ["text"] = "Los Santos",
+            },
+        }
+    }
+  PerformHttpRequest(Config.webhook, function(err, text, headers) end, 'POST', json.encode({username =  "dv_union", embeds = connect, avatar_url = "https://cdn.discordapp.com/icons/866965773623623691/d2013f3fb9135be5492dc98e45df0f4d.webp?size=128"}), { ['Content-Type'] = 'application/json' })
+end)

@@ -1,4 +1,6 @@
 Config = {}
+----FRAMEWORK----
+Config.framework = 'esx' -- qb/esx
 ----IPL----
 Config.ipl = 'dv_union' -- if you already have ipl loader change to other name
 ----BLIP-----
