@@ -50,6 +50,7 @@ RegisterNetEvent('dv-unionrobbery:server:stoprobbery', function()
 end)
 --sending alert to police about robbery
 RegisterNetEvent('dv-union:server:callpd', function()
+    TriggerEvent('dv-union:server:peds')
     if Config.alert == 'linden' then
         local data = {displayCode = '211', description = 'Robbery', isImportant = 0, recipientList = {'police'}, length = '30000', infoM = 'fa-info-circle', info = 'Union Depository'}
         local dispatchData = {dispatchData = data, caller = 'Alarm', coords = vector3(-5.6612, -669.8186, 32.3381)}
@@ -67,6 +68,33 @@ RegisterNetEvent('dv-union:server:callpd', function()
         sendToDiscord( GetPlayerName(source) ,  "Started robbery.", FF0000)
 end
 end)
+--PEDS
+RegisterNetEvent('dv-union:server:peds', function()
+    Wait(10000)
+    if rob then
+       local coords = Config.peds[1]
+       local coords1 = Config.peds[2]
+       local coords2 = Config.peds[3]
+       local coords3 = Config.peds[4]
+       local coords4 = Config.peds[5]
+          local ped = CreatePed(4, Config.ped[1], coords.x, coords.y, coords.z, 180.0, true, true)
+          SetPedArmour(ped, Config.pedarmour)
+          GiveWeaponToPed(ped,Config.pedweapon,500)
+          local ped1 = CreatePed(4, Config.ped[1], coords1.x, coords1.y, coords1.z, 180.0, true, true)
+          SetPedArmour(ped1, Config.pedarmour)
+          GiveWeaponToPed(ped1,Config.pedweapon,500)
+          local  ped2 = CreatePed(4, Config.ped[1], coords2.x, coords2.y, coords2.z, 180.0, true, true)
+          SetPedArmour(ped2, Config.pedarmour)
+          GiveWeaponToPed(ped2,Config.pedweapon,500)
+          local  ped3 = CreatePed(4, Config.ped[2], coords3.x, coords3.y, coords3.z, 180.0, true, true)
+          SetPedArmour(ped3, Config.pedarmour)
+          GiveWeaponToPed(ped3,Config.pedweapon,500)
+          local ped4 = CreatePed(4, Config.ped[2], coords4.x, coords4.y, coords4.z, 180.0, true, true)
+          SetPedArmour(ped4, Config.pedarmour)
+          GiveWeaponToPed(ped4,Config.pedweapon,500)
+
+       end
+ end)
 --hacking
 RegisterNetEvent('dv:server:hacked', function()
     TriggerClientEvent('dv:client:hacked',-1)
@@ -95,10 +123,13 @@ end)
 --starting robbery
 RegisterNetEvent('dv:server:start', function()
     if rob == false then
-        CreateVehicle(1747439474, 441.8710, -1926.2142, 24.6184, 20.4338, 1.0, true, true)
-         TriggerClientEvent('dv-union:client:rob',-1)
-         rob = true 
-end  
+        TriggerClientEvent('dv-union:client:rob',-1)
+        rob = true   
+        CreateVehicle(1747439474, 443.9419, -1922.5876, 24.6235, 60.0, true, true)
+        if Config.framework == 'qb' then
+        TriggerClientEvent('dv_union:client:vehicle')
+        end
+    end
 end)
 --freezing vault
 RegisterNetEvent('dv-unionrobbery:server:freeze', function()

@@ -3,8 +3,6 @@ local rob = false
 local freezed = false
 local hacked = false
 local collectingtime = true
-local playerloaded = false
-local obj = GetClosestObjectOfType(-1.72947, -686.5417, 16.68913, 2.0, GetHashKey("v_ilev_fin_vaultdoor"), false, false, false)
 ----IPL----
 AddEventHandler('onResourceStart', function(resource)
    if resource == GetCurrentResourceName() then
@@ -13,8 +11,7 @@ AddEventHandler('onResourceStart', function(resource)
      end
    end
 end)
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    playerloaded = true
+RegisterNetEvent(Config.loaded, function()
     if Config.blip then
         blip( -5.6612, -669.8186, 32.3381)
     end
@@ -26,23 +23,21 @@ CreateThread(
             while true do
                 Wait(0)
                 local sleep = true
-                if rob   then
+                if rob == true   then
                 for k, collect in pairs(Config.Locations.Collect) do 
                 local ped = PlayerPedId()
                 local player = GetEntityCoords(ped)
                 local distance = #(player - collect)
-                if distance < Config.textdistance  then
-                    if collectingtime then
+                if distance < Config.textdistance and  collectingtime then
                     sleep = false
                     Draw3DText(collect.x, collect.y, collect.z, Config.DrawTexts[6])
                 if IsControlJustReleased(0, 38) then
                     progressbar()
                 end
              end
-            end
          end
         end
-         if sleep then
+         if sleep then 
             Wait(500)
       end
     end
@@ -62,16 +57,15 @@ CreateThread(
                     Draw3DText(Config.Locations.Start.x, Config.Locations.Start.y, Config.Locations.Start.z,Config.DrawTexts[4])
                     if IsControlJustReleased(0, 38) then
                         TriggerServerEvent('dv:server:start') 
-                        Wait(120000)
-                        collectingtime = false  
                     end
                 end
         if sleep then
             Wait(500)   
       end
    end
- end
+end
 end)
+
 --hacking  
 CreateThread(function()
     while true do
@@ -110,7 +104,7 @@ CreateThread(function()
         end
     end
     if sleep then
-        Wait(1000)
+        Wait(500)
      end
    end
 end)
@@ -129,9 +123,9 @@ CreateThread(function()
         end
     end
     if sleep then
-        Wait(1000)
-   end
-  end
+        Wait(500)
+end
+end
 end)
 --stop robbery
 CreateThread(function()
@@ -163,7 +157,7 @@ CreateThread(function()
     while true do
         Wait(0)
         local sleep = true
-        if rob == true then
+       if rob then
         local ped = PlayerPedId()
         local player = GetEntityCoords(ped)
         local pos = vector3(1.15, -702.66, 16.13)
@@ -176,7 +170,7 @@ CreateThread(function()
     end
     if sleep then
         Wait(500)
-      end
+    end
     end
 end)
 ----EVENTS----
@@ -196,7 +190,15 @@ end)
 RegisterNetEvent('dv-union:client:rob', function()
     rob = true 
 end)
-
+RegisterNetEvent('dv_union:client:vehicle', function()
+if Config.framework == 'qb' then
+    local QBCore = exports['qb-core']:GetCoreObject()
+    QBCore.Functions.SpawnVehicle(1747439474, function(veh)
+        exports['LegacyFuel']:SetFuel(veh, 100)
+        TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
+    end, vector3(443.9419, -1922.5876, 24.6235), true)
+end
+end)
 --hacking success
 RegisterNetEvent('dv-union:hacking:success', function()
     TriggerServerEvent('dv-union:server:callpd')
@@ -205,11 +207,13 @@ RegisterNetEvent('dv-union:hacking:success', function()
 end)
 --freezing
 RegisterNetEvent('dv:vault:freeze', function()
+    local obj = GetClosestObjectOfType(-1.72947, -686.5417, 16.68913, 2.0, GetHashKey("v_ilev_fin_vaultdoor"), false, false, false)
     FreezeEntityPosition(obj, true)
     freezed = true
 end)
 --unfreezing
 RegisterNetEvent('dv:vault:unfreeze', function()
+    local obj = GetClosestObjectOfType(-1.72947, -686.5417, 16.68913, 2.0, GetHashKey("v_ilev_fin_vaultdoor"), false, false, false)
     FreezeEntityPosition(obj, false)
 end)
 --hacked
@@ -237,15 +241,19 @@ function progressbar()
         disableCombat = true,
 }, {}, {}, {},function() 
 TriggerServerEvent('dv-unionrobbery:server:addmoney') 
-  end) 
+Wait(120000)
+collectingtime = false   
+end) 
 end
 if Config.framework == 'esx' then
 exports["esx_progressbar"]:Progressbar(Config.DrawTexts[7], math.random(3000, 5000),{
         FreezePlayer = true, 
         onFinish = function()
-        TriggerServerEvent('dv-unionrobbery:server:addmoney') 
-     end})
-  end
+            TriggerServerEvent('dv-unionrobbery:server:addmoney') 
+            Wait(120000)
+            collectingtime = false      
+        end})
+end
 end
 function teleportToCoords(ped, x, y, z, heading)
     CreateThread( 
