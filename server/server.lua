@@ -124,10 +124,12 @@ end)
 RegisterNetEvent('dv:server:start', function()
     if rob == false then
         TriggerClientEvent('dv-union:client:rob',-1)
-        rob = true   
+        rob = true  
+        if Config.framework == not 'qb' then 
         CreateVehicle(1747439474, 443.9419, -1922.5876, 24.6235, 60.0, true, true)
+        end
         if Config.framework == 'qb' then
-        TriggerClientEvent('dv_union:client:vehicle')
+        TriggerClientEvent('dv_union:client:vehicle',source)
         end
     end
 end)
