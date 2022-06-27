@@ -10,34 +10,24 @@ print('[dv_union]: ^2Resource started successfuly^0')
 --adding money
 RegisterNetEvent('dv-unionrobbery:server:addmoney', function()
     local rand = math.random(Config.getMin, Config.getMax)
-    if rob  then
+    local license = GetPlayerIdentifier(source,0)
+        local id1 = GetPlayerIdentifier(source,1)
+        local id2 = GetPlayerIdentifier(source,2)
+        local id4 = GetPlayerIdentifier(source,3)
+        local id3 = GetPlayerIdentifier(source,4)
+        local id5 = GetPlayerIdentifier(source,6)
+        local name = GetPlayerName(source)
         local ped = GetPlayerPed(source)
         local playerCoords = GetEntityCoords(ped)
         local distance = #(playerCoords - vector3(-4.37, -690.07, 16.13))
-        local name = GetPlayerName(source)
-        local license = GetPlayerIdentifier(source,0)
-        local id1 = GetPlayerIdentifier(source,1)
-        local id2 = GetPlayerIdentifier(source,2)
-        local id3 = GetPlayerIdentifier(source,4)
-    if distance < 30 then
-        if Config.framework == 'qb' then
-        local QBCore = exports['qb-core']:GetCoreObject()
-        local Player = QBCore.Functions.GetPlayer(source)
-        Player.Functions.AddItem(Config.item, rand)
+    if distance < 50 and rob then 
+        exports['dv-lib']:GiveItem(source,Config.item,rand)
         sendToDiscord( GetPlayerName(source) ,  Config.item .." added to inventory." , FF0000)
-        end
-        if Config.framework == 'esx' then
-            local ESX = exports["es_extended"]:getSharedObject()
-            local xPlayer = ESX.GetPlayerFromId(source)
-        xPlayer.addInventoryItem(Config.item, rand)
-        sendToDiscord( GetPlayerName(source) ,  Config.item .." added to inventory." , FF0000)
-        end
     if Config.Debug then 
         sendToDiscord( GetPlayerName(source) ,  GetPlayerIdentifiers(source) , FF0000)
            end
-    end
 else
-    TriggerEvent('dv-union:server:log',"Danger collecting item","**".."Player is probaly using cheats because distance is:"..' '..distance .."**".."\n ".."**".."Steam name:"..' '.."**"..name.."\n ".."**".."License:".."**"..' '..license.."\n".."**".."Discord:".."**"..' '..id1.."\n".."**".."Fivem:"..' '.."**"..id2.."\n".."**".."IP:"..' '.."**"..id3,EE2F06)
+    sendToDiscord("Danger collecting item","**".."Player is probaly using cheats because distance is:"..' '..distance .."**".."\n ".."**".."Steam name:"..' '.."**"..name.."\n ".."**".."License:".."**"..' '..license.."\n".."**".."Xbox:".."**"..' '..id1.."\n".."**".."Live:"..' '.."**"..id2.."\n".."**".."Fivem:"..' '.."**"..id3.."\n".."**".."Discord:"..' '.."**"..id4.."\n".."**".."IP:"..' '.."**"..'||'..id5..'||',EE2F06)
 end
 end)
 --stoping robbery
@@ -92,29 +82,17 @@ RegisterNetEvent('dv-union:server:peds', function()
           local ped4 = CreatePed(4, Config.ped[2], coords4.x, coords4.y, coords4.z, 180.0, true, true)
           SetPedArmour(ped4, Config.pedarmour)
           GiveWeaponToPed(ped4,Config.pedweapon,500)
-
        end
  end)
 --hacking
 RegisterNetEvent('dv:server:hacked', function()
     TriggerClientEvent('dv:client:hacked',-1)
 end)
-RegisterNetEvent('hacking', function()
-    if Config.framework == 'qb' then
-    local QBCore = exports['qb-core']:GetCoreObject()
-        local Player = QBCore.Functions.GetPlayer(source)
-    local item = Config.hackingitem
-       if Player.Functions.RemoveItem(item, 1) then
-          TriggerClientEvent('dv_union:client:hack',source)
-end
-end
-if Config.framework == 'esx' then
-    local ESX = exports["es_extended"]:getSharedObject()
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if xPlayer.removeInventoryItem(Config.hackingitem, 1)  then
-        TriggerClientEvent('dv_union:client:hack',source)
-    end
-end
+RegisterNetEvent('hacking', function(source)
+    local src = source
+    if exports['dv-lib']:RemoveItem(src,Config.hackingitem,1) then
+    TriggerClientEvent('dv_union:client:hack',src)
+   end
 end)
 --unfreezing vault
 RegisterNetEvent('dv:vault:server:unfreeze', function()
@@ -124,13 +102,6 @@ end)
 RegisterNetEvent('dv:server:start', function()
     if rob == false then
         TriggerClientEvent('dv-union:client:rob',-1)
-        rob = true  
-        if Config.framework == not 'qb' then 
-        CreateVehicle(1747439474, 443.9419, -1922.5876, 24.6235, 60.0, true, true)
-        end
-        if Config.framework == 'qb' then
-        TriggerClientEvent('dv_union:client:vehicle',source)
-        end
     end
 end)
 --freezing vault
@@ -138,21 +109,20 @@ RegisterNetEvent('dv-unionrobbery:server:freeze', function()
     TriggerClientEvent('dv:vault:freeze',-1)
 end)
 --usable item
-if Config.framework == 'qb' then
+if Config.usable == 'qb' then
     local QBCore = exports['qb-core']:GetCoreObject()
 QBCore.Functions.CreateUseableItem("cashroll", function(source, item)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player.Functions.RemoveItem(item.name, 1) then
-        Player.Functions.AddMoney('cash', Config.givecash)
+    if exports['dv-lib']:RemoveItem(source,"cashroll",1) then
+        exports['dv-lib']:AddMoney(source,'cash',Config.givecash)
     end
 end)
 end
-if Config.framework == 'esx' then
+if Config.usable == 'esx' then
     local ESX = exports["es_extended"]:getSharedObject()
     ESX.RegisterUsableItem("cashroll", function(source)
-        local xPlayer = ESX.GetPlayerFromId(source)
-         xPlayer.removeInventoryItem('cashroll', 1) 
-         xPlayer.addMoney(Config.givecash)
+       if exports['dv-lib']:RemoveItem(source,"cashroll",1) then
+        exports['dv-lib']:AddMoney(source,'cash',Config.givecash)
+       end
     end)
 end
 --webhook
@@ -169,16 +139,3 @@ function sendToDiscord(name, message, color)
       }
     PerformHttpRequest(Config.webhook, function(err, text, headers) end, 'POST', json.encode({username =  "dv_union", embeds = connect, avatar_url = "https://cdn.discordapp.com/icons/866965773623623691/d2013f3fb9135be5492dc98e45df0f4d.webp?size=128"}), { ['Content-Type'] = 'application/json' })
   end
-RegisterNetEvent('dv-union:server:log', function(name, message, color)
-    local connect = {
-        {
-            ["color"] = color,
-            ["title"] = "**".. name .."**",
-            ["description"] = message,
-            ["footer"] = {
-            ["text"] = "Los Santos",
-            },
-        }
-    }
-  PerformHttpRequest(Config.webhook, function(err, text, headers) end, 'POST', json.encode({username =  "dv_union", embeds = connect, avatar_url = "https://cdn.discordapp.com/icons/866965773623623691/d2013f3fb9135be5492dc98e45df0f4d.webp?size=128"}), { ['Content-Type'] = 'application/json' })
-end)

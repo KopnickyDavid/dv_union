@@ -1,6 +1,8 @@
 Config = {}
 ----FRAMEWORK----
-Config.framework = 'qb' -- qb/esx
+Config.progressbar = 'qb' -- qb/esx
+Config.vehicle = 'qb' -- qb/esx
+Config.car = 1747439474 -- car hash
 Config.loaded = 'QBCore:Client:OnPlayerLoaded' -- 'QBCore:Client:OnPlayerLoaded'/'esx:playerLoaded'
 ----IPL----
 Config.ipl = 'dv_union' -- if you already have ipl loader change to other name
@@ -36,4 +38,4 @@ Config.DrawTexts = { -- texts for DrawText and progressbar
     "[E] to open vault",
     "[E] to collect money",
     "Collecting money"
-  }
+}
