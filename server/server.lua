@@ -59,7 +59,7 @@ RegisterNetEvent('dv-union:server:callpd', function()
                 elseif Config.alert == 'CD' then
 TriggerClientEvent('cd_dispatch:AddNotification', -1, {
     job_table = {'police'},
-    coords = vector3(0, 0, 0),
+    coords = vector3(-5.6612, -669.8186, 32.3381),
     title = '211 - Union Depository',
     message = 'Union depository is being robbed',
     flash = 0,
