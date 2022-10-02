@@ -56,6 +56,25 @@ RegisterNetEvent('dv-union:server:callpd', function()
         TriggerClientEvent("qb-phone:client:addPoliceAlert", -1, alertData)
         sendToDiscord( "ALARM" ,  " Union depository is being robbed.", FF0000)
         sendToDiscord( GetPlayerName(source) ,  "Started robbery.", FF0000)
+                elseif Config.alert == 'CD' then
+TriggerClientEvent('cd_dispatch:AddNotification', -1, {
+    job_table = {'police'},
+    coords = vector3(0, 0, 0),
+    title = '211 - Union Depository',
+    message = 'Union depository is being robbed',
+    flash = 0,
+    unique_id = tostring(math.random(0000000,9999999)),
+    blip = {
+        sprite = 137,
+        scale = 1.2,
+        colour = 3,
+        flashes = false,
+        text = '211 - Union Depository',
+        time = (5*60*1000),
+        sound = 1,
+    }
+})
+
 end
 end)
 --PEDS
