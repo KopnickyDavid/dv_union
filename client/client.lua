@@ -182,7 +182,9 @@ function vehicle()
           spawned = false
       end, vector3(443.9419, -1922.5876, 24.6235), true)
     elseif Config.vehicle == 'esx'and spawned then
-      ESX.Game.SpawnVehicle(Config.car, vector3(443.9419, -1922.5876, 24.6235), 360, function (vehicle)
+      
+        local ESX = exports["es_extended"]:getSharedObject()
+ESX.Game.SpawnVehicle(Config.car, vector3(443.9419, -1922.5876, 24.6235), 360, function (vehicle)
         spawned = false
       end)
     end
