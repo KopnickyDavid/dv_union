@@ -1,3 +1,9 @@
+if Config.framework == 'qb' then
+     QBCore = exports['qb-core']:GetCoreObject()
+elseif Config.framework == 'esx' then
+     ESX = exports['es_extended']:getSharedObject()
+end
+
 ----LOCALS----
 local rob = false
 ----RESOURCE NAME----
@@ -10,60 +16,29 @@ print('[dv_union]: ^2Resource started successfuly^0')
 --adding money
 RegisterNetEvent('dv-unionrobbery:server:addmoney', function()
     local rand = math.random(Config.getMin, Config.getMax)
-    local license = GetPlayerIdentifier(source, 0)
-    local id1 = GetPlayerIdentifier(source, 1)
-    local id2 = GetPlayerIdentifier(source, 2)
-    local id4 = GetPlayerIdentifier(source, 3)
-    local id3 = GetPlayerIdentifier(source, 4)
-    local id5 = GetPlayerIdentifier(source, 6)
-    local name = GetPlayerName(source)
-    local ped = GetPlayerPed(source)
+    local sourcePlayer = tonumber(source)
+    local license = GetPlayerIdentifier(sourcePlayer, 0)
+    local name = GetPlayerName(sourcePlayer)
+    local ped = GetPlayerPed(sourcePlayer)
     local playerCoords = GetEntityCoords(ped)
-    local distance = #(playerCoords - vector3(-4.37, -690.07, 16.13))
-    if distance < 50 and rob then
-        exports['dv-lib']:GiveItem(source, Config.item, rand)
-        sendToDiscord(GetPlayerName(source), Config.item .. " added to inventory.", FF0000)
+    local distance = #(playerCoords - vector3(4.69, -675.87, 16.13))
+    if distance < 100 and rob then
+        if Config.framework == 'qb' then
+            local Player = QBCore.Functions.GetPlayer(sourcePlayer)
+            Player.Functions.AddItem(Config.item, rand)
+        elseif Config.framework == 'esx' then
+            local xPlayer = ESX.GetPlayerFromId(sourcePlayer)
+            xPlayer.addInventoryItem(Config.item, rand)
+        end 
+        sendToDiscord(name, Config.item .. " added to inventory.", FF0000)
         if Config.Debug then
-            sendToDiscord(GetPlayerName(source), GetPlayerIdentifiers(source), FF0000)
+            sendToDiscord(name, license, FF0000)
         end
     else
-        sendToDiscord("Danger collecting item",
-            "**" ..
-            "Player is probaly using cheats because distance is:" ..
-            ' ' ..
-            distance ..
-            "**" ..
-            "\n " ..
-            "**" ..
-            "Steam name:" ..
-            ' ' ..
-            "**" ..
-            name ..
-            "\n " ..
-            "**" ..
-            "License:" ..
-            "**" ..
-            ' ' ..
-            license ..
-            "\n" ..
-            "**" ..
-            "Xbox:" ..
-            "**" ..
-            ' ' ..
-            id1 ..
-            "\n" ..
-            "**" ..
-            "Live:" ..
-            ' ' ..
-            "**" ..
-            id2 ..
-            "\n" ..
-            "**" ..
-            "Fivem:" .. ' ' ..
-            "**" .. id3 .. "\n" .. "**" .. "Discord:" .. ' ' .. "**" .. id4 .. "\n" ..
-            "**" .. "IP:" .. ' ' .. "**" .. '||' .. id5 .. '||', EE2F06)
+        sendToDiscord("Danger collecting item", "**Player is probably using cheats because distance is: " .. distance .. "**\n**Steam name:** " .. name .. "\n**License:** " .. license, EE2F06)
     end
 end)
+
 --stoping robbery
 RegisterNetEvent('dv-unionrobbery:server:stoprobbery', function()
     if rob == true then
@@ -122,37 +97,34 @@ end)
 RegisterNetEvent('dv-union:server:peds', function()
     Wait(10000)
     if rob then
-        local coords = Config.peds[1]
-        local coords1 = Config.peds[2]
-        local coords2 = Config.peds[3]
-        local coords3 = Config.peds[4]
-        local coords4 = Config.peds[5]
-        local ped = CreatePed(4, Config.ped[1], coords.x, coords.y, coords.z, 180.0, true, true)
-        SetPedArmour(ped, Config.pedarmour)
-        GiveWeaponToPed(ped, Config.pedweapon, 500)
-        local ped1 = CreatePed(4, Config.ped[1], coords1.x, coords1.y, coords1.z, 180.0, true, true)
-        SetPedArmour(ped1, Config.pedarmour)
-        GiveWeaponToPed(ped1, Config.pedweapon, 500)
-        local ped2 = CreatePed(4, Config.ped[1], coords2.x, coords2.y, coords2.z, 180.0, true, true)
-        SetPedArmour(ped2, Config.pedarmour)
-        GiveWeaponToPed(ped2, Config.pedweapon, 500)
-        local ped3 = CreatePed(4, Config.ped[2], coords3.x, coords3.y, coords3.z, 180.0, true, true)
-        SetPedArmour(ped3, Config.pedarmour)
-        GiveWeaponToPed(ped3, Config.pedweapon, 500)
-        local ped4 = CreatePed(4, Config.ped[2], coords4.x, coords4.y, coords4.z, 180.0, true, true)
-        SetPedArmour(ped4, Config.pedarmour)
-        GiveWeaponToPed(ped4, Config.pedweapon, 500)
+        for i=1, #Config.peds do
+            local coords = Config.peds[i]
+            local pedIndex = i <= 3 and 1 or 2
+            local ped = CreatePed(4, Config.ped[pedIndex], coords.x, coords.y, coords.z, 180.0, true, true)
+            SetPedArmour(ped, Config.pedarmour)
+            GiveWeaponToPed(ped, Config.pedweapon, 500,false,true)
+        end
     end
 end)
+
 --hacking
 RegisterNetEvent('dv:server:hacked', function()
     TriggerClientEvent('dv:client-events', -1, 'hack')
 end)
 RegisterNetEvent('hacking', function(source)
     local src = source
-    if exports['dv-lib']:RemoveItem(src, Config.hackingitem, 1) then
+    if Config.framework == 'qb' then
+        local Player = QBCore.Functions.GetPlayer(source)
+       if  Player.Functions.RemoveItem(Config.hackingitem,  1) then
         TriggerClientEvent('dv_union:client:hack', src)
-    end
+       end
+    elseif Config.framework == 'esx' then
+        local xPlayer = ESX.GetPlayerFromId(source)
+        if xPlayer.getInventoryItem(Config.hackingitem).count >= 1 then
+        xPlayer.removeInventoryItem(Config.hackingitem,  1)
+        TriggerClientEvent('dv_union:client:hack', src)
+        end
+    end 
 end)
 --unfreezing vault
 RegisterNetEvent('dv:vault:server:unfreeze', function()
@@ -161,6 +133,7 @@ end)
 --starting robbery
 RegisterNetEvent('dv:server:start', function()
     if rob == false then
+        rob = true
         TriggerClientEvent('dv:client-events', -1, 'rob')
     end
 end)
@@ -169,21 +142,22 @@ RegisterNetEvent('dv-unionrobbery:server:freeze', function()
     TriggerClientEvent('dv:client-events', -1, 'lock')
 end)
 --usable item
-if Config.usable == 'qb' then
-    local QBCore = exports['qb-core']:GetCoreObject()
-    QBCore.Functions.CreateUseableItem("cashroll", function(source, item)
-        if exports['dv-lib']:RemoveItem(source, "cashroll", 1) then
-            exports['dv-lib']:AddMoney(source, 'cash', Config.givecash)
+if Config.framework == 'qb' then
+    QBCore.Functions.CreateUseableItem(Config.item, function(source, item)
+        local Player = QBCore.Functions.GetPlayer(source)
+        if  Player.Functions.RemoveItem(Config.item,  1) then
+         Player.Functions.AddMoney('cash', Config.givecash)
         end
     end)
 end
-if Config.usable == 'esx' then
-    local ESX = exports["es_extended"]:getSharedObject()
-    ESX.RegisterUsableItem("cashroll", function(source)
-        if exports['dv-lib']:RemoveItem(source, "cashroll", 1) then
-            exports['dv-lib']:AddMoney(source, 'cash', Config.givecash)
-        end
-    end)
+if Config.framework == 'esx' then
+    ESX.RegisterUsableItem(Config.item, function(playerId)
+        local xPlayer = ESX.GetPlayerFromId(playerId)
+        xPlayer.removeInventoryItem(Config.item,  1)
+        xPlayer.addMoney(Config.givecash)
+      end)
+      
+      
 end
 --webhook
 function sendToDiscord(name, message, color)

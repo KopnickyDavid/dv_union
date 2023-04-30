@@ -1,7 +1,7 @@
 Config = {}
 ----FRAMEWORK/ALERT/DEBUG----
-Config.usable = 'qb' -- qb/esx
-Config.alert = 'QB' -- QB/linden/CD
+Config.framework = 'esx' -- qb/esx
+Config.alert = 'linden' -- QB/linden/CD
 Config.Debug = false --some more logs
 Config.version = 10000 --every 10s check for version
 ----Money----
